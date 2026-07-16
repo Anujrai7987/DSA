@@ -1,21 +1,25 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        unordered_set<int> set;
-        vector<int> ans;
 
-        for(int i=0;i<nums.size();i++){
-            int a=nums[i];
+        // Step 1: Find intersection point
+        int slow = nums[0];
+        int fast = nums[0];
 
-            if(set.find(a)!=set.end()){
-                ans.push_back(a);
-                return a;
-            }
-            else {
-                set.insert(a);
-            }
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+
+
+        // Step 2: Find cycle entrance (duplicate number)
+        slow = nums[0];
+
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
         }
-        return {};
-        
+
+        return slow;
     }
 };
